@@ -9,12 +9,12 @@ The goal of this project is to develop machine learning algorithm, together with
 
 ####Files
 
-- **Project summary** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_report.html)    
+- **Project summary** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_report.html))    
 - **Questions** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_questions.html))    
 - **References** ([txt](reference.txt))  
 - **Codes**
 	- [poi_id.py](poi_id.py)
 	- [poi_model.py](poi_model.py)
 	- [poi_dataprocess.py](poi_dataprocess.py)
-	- [Project4_ML-workflow.ipynb](Project4_ML_workflow.ipynb)
+	- [Project4_ML_workflow.ipynb](Project4_ML_workflow.ipynb)
 
