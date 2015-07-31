@@ -16,7 +16,5 @@ The goal of this project is to develop machine learning algorithm, together with
 	- [poi_id.py](poi_id.py)
 	- [poi_model.py](poi_model.py)
 	- [poi_dataprocess.py](poi_dataprocess.py)
-	- [Project4_ML-workflow.ipynb](Project4_ML-workflow.ipynb)
-
-
+	- [Project4_ML-workflow.ipynb](Project4_ML_workflow.ipynb)
 
