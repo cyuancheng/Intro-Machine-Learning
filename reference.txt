@@ -1,0 +1,8 @@
+reference:
+
+1. [Enron scandal, from WiKipedia](https://en.wikipedia.org/wiki/Enron_scandal)
+2. [Enron Email Dataset](https://www.cs.cmu.edu/~./enron/)
+3. [Enron Financial Dataset](http://news.findlaw.com/legalnews/lit/enron/)
+4. [EnronData.org](http://enrondata.org/content/research/)
+5. [scikit-learn](http://scikit-learn.org/stable/)
+6.  Python for Data Analysis, by Wes McKinney, O'Reilly Media, 2012.

@@ -1,0 +1,390 @@
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>Questions_Project4</title>
+<style type="text/css">
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1.5em;border-top:4px solid #e0e0e0;padding-top:.5em;}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+</head>
+<body>
+<h3 id="toc_0">Project 4: Identifying Fraud from Enron Email | Intro Machine Learning</h3>
+
+<ul>
+<li>Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com) </li>
+<li>Last updated: July 31, 2015</li>
+</ul>
+
+<hr>
+
+<h3 id="toc_1">Enron Submission Free-Response Questions</h3>
+
+<p><strong><em>1. Summarize for us the goal of this project and how machine learning is useful in trying to accomplish it.  As part of your answer, give some background on the dataset and how it can be used to answer the project question.  Were there any outliers in the data when you got it, and how did you handle those?  [relevant rubric items: “data exploration”, “outlier investigation”]</em></strong></p>
+
+<h4 id="toc_2">(1) Goal</h4>
+
+<p>The goal of this project is to develop machine learning algorithm, together with scikit-learn Python module, to predict the person of interest (POI) of a fraud from the email and financial (E+F) dataset. POIs were ‘individuals who were indicted, reached a settlement, or plea deal with the government, or testified in exchange for prosecution immunity.’  The E+F dataset from the Enron Corpus was used as features for the POI prediction.</p>
+
+<h4 id="toc_3">(2) Background</h4>
+
+<p>Enron was an infamous American company which was known for its extensive fraud. Enron marketed electricity and natural gas, delivered energy and other physical commodities around the world. It was once ranked the sixth largest energy company in the world. Most of the top Enron&#39;s executives were tried for fraud after it was revealed in November 2001 that Enron&#39;s earnings had been overstated by several hundred million dollars. Enron paid the top 140 executives $680 million in 2001. Among others, Kenneth Lay (founder, chairman of the Enron board directors) received $67.4 million and Jeffrey Skilling (former CEO) received $41.8 million. Moreover, the top executives sold their company stock prior to the company&#39;s downfall. The Enron scandal was one of the five largest audit and accountancy partnerships in the world and Enron was cited as the biggest audit failure.</p>
+
+<p>On the other hands, the Enron Corpus is believed to be one of the largest publicly available collection of real-world email data. It has been widely used for research in social network analysis, natural language processing, and machine learning. The Enron financial records of former executives and employees were also released during the fraud trials.  </p>
+
+<h4 id="toc_4">(3) Outliners</h4>
+
+<p>I removed the following entries in the dataset.</p>
+
+<ol>
+<li>The <code>TOTAL</code>  is the summation of all the data points for each feature, and it is the biggest Enron E+F dataset outlier. </li>
+<li>The<code>THE TRAVEL AGENCY IN THE PARK</code> is a travel agency, not the name of employee at Enron.</li>
+<li>The <code>LOCKHART EUGENE E</code> missed all the feature values, and is not very useful in the dataset.</li>
+<li>The <code>email_address</code> feature is also a outliner, because it is a person&#39;s email address and is not useful to identify POIs.</li>
+</ol>
+
+<p>This dataset contains lots of missing values (NaN). Many machine learning models don&#39;t like NaN. If we just fill the NaN values with zero, it may bias the data towards low values. The solution here is to fill the NaN values with median values for each feature.</p>
+
+<p><strong><em>2. What features did you end up using in your POI identifier, and what selection process did you use to pick them?  Did you have to do any scaling?  Why or why not?  As part of the assignment, you should attempt to engineer your own feature that doesn’t come ready-made in the dataset--explain what feature you tried to make, and the rationale behind it.  (You do not necessarily have to use it in the final analysis, only engineer and test it.)  If you used an algorithm like a decision tree, please also give the feature importances of the features that you use.  [relevant rubric items: “create new features”, “properly scale features”, “intelligently select feature”]</em></strong></p>
+
+<h4 id="toc_5">(1) Create features</h4>
+
+<p>I engineered the following three features. The reason is that individuals that are in frequent contact with POIs are likely to be POIs.</p>
+
+<table>
+<thead>
+<tr>
+<th>new  features</th>
+<th style="text-align: center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>fraction from poi</code></td>
+<td style="text-align: center">fraction of messages from a PO to that person I</td>
+</tr>
+<tr>
+<td><code>fraction to poi</code></td>
+<td style="text-align: center">fraction of messages from that person to a POI</td>
+</tr>
+<tr>
+<td><code>fraction email with poi</code></td>
+<td style="text-align: center">fraction of messages to and from that person to a POI</td>
+</tr>
+</tbody>
+</table>
+
+<p>But unfortunately, they did not improve the overall performance of the modeling, so they were not included in the final model.</p>
+
+<h4 id="toc_6">(2) Selected features</h4>
+
+<p>Before feeding the features into any models, it is necessary to scale the feature values to be between 0 and 1. It is because if one feature has a broad range of values, the outcome will be governed by this particular feature. Therefore, the range of all feature values need to be normalized, so that each feature contributes approximately proportionately to the final outcome.</p>
+
+<p>I used SelectKBest to search the best features in E+F feature list, according to the ANOVA F-value classification scoring function, as below. This step can get rid of some unnecessary features that may overfit the predictive model.
+<img src="Fig_SelectKBest_features.png" alt="selected features" title="Selected features"></p>
+
+<p>The top 15 features from SelectKBest were fed to the DecisionTreeClassifier algorithm to determine the feature importance. 
+<img src="Fig_importance.png" alt="feature importance" title="feature importance"></p>
+
+<p>I then removed the features by hand to optimize the score of the model. 
+Finally, I chose the following featurest:</p>
+
+<pre><code>&#39;exercised_stock_options&#39;, &#39;total_stock_value&#39;,
+ &#39;bonus&#39;, &#39;salary&#39;,  &#39;deferred_income&#39;</code></pre>
+
+<p><strong><em>3. What algorithm did you end up using?  What other one(s) did you try? [relevant rubric item: “pick an algorithm”]</em></strong></p>
+
+<p>Initially, I fed the top 5 features that were found by SelectKBest to the following algorithms with default parameters and compared their scores.</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th style="text-align: center">Accuracy</th>
+<th style="text-align: center">Precision</th>
+<th style="text-align: center">Recall</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Naive Bayes</td>
+<td style="text-align: center">0.9333</td>
+<td style="text-align: center">0.5</td>
+<td style="text-align: center">1.0</td>
+</tr>
+<tr>
+<td>KNeighbors</td>
+<td style="text-align: center">0.9333</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+</tr>
+<tr>
+<td>AdaBoost</td>
+<td style="text-align: center">0.9333</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+</tr>
+<tr>
+<td>Logistic Regression</td>
+<td style="text-align: center">0.9333</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td style="text-align: center">0.8667</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+</tr>
+<tr>
+<td>LinearSVC</td>
+<td style="text-align: center">0.8667</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+</tr>
+<tr>
+<td>Decision Tree</td>
+<td style="text-align: center">0.7333</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+</tr>
+</tbody>
+</table>
+
+<p>They gives high accuracies, but the precision and recall are zero for all the models, except the Naive Bayes. Surprisingly, Baive Bayes has the highest accuracy and precision with a recall of 1.0. It is too high to be true, and it may be due to overfitting. </p>
+
+<p>I fined tune the parameters of Decision Tree, AdaBoost, KNeighbors, Random Forest, and Logistic Regression to get the optimal performance of the models.  Finally, I end up using AdaBoost (with optimal Decision Tree estimator) and Decision Tree algorithms, because the scores of precision and recall for both models are the highest among other algorithms (&gt; 0.3). </p>
+
+<p><strong><em>4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm?  (Some algorithms don’t have parameters that you need to tune--if this is the case for the one you picked, identify and briefly explain how you would have done it if you used, say, a decision tree classifier). [relevant rubric item: “tune the algorithm”]</em></strong></p>
+
+<p>Tuning the parameters of algorithm means to optimize the performance of the model to the particular features in the dataset. The performance can be determined by accuracy, precision, and recall scores.</p>
+
+<p>To optimize the performance of model, I first scales the selected features to be between 0 and 1 using MinMaxSxaler. The scaled features was fed into Principal Components Analysis (PCA) dimensional reduction algorithm as a part of GridSearchCV pipeline, when searching the optimal estimator parameters for particular classification algorithm. These two steps were used during each cross-validation step for the grid search and optimal parameters. For the Decision Tree Classifier, I found the optimal value of <code>min_sample_split</code>and <code>min_samples_leaf</code> to get high accuracy, precision and recall was 0.316 and 1, respectively.</p>
+
+<table>
+<thead>
+<tr>
+<th>optimized parameter</th>
+<th style="text-align: center">Adaboost</th>
+<th style="text-align: center">Decision Tree</th>
+<th style="text-align: center">KNeighborss</th>
+<th style="text-align: center">Random Forest</th>
+<th style="text-align: center">Logistic Regression</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>n_components</code> (PCA)</td>
+<td style="text-align: center">3</td>
+<td style="text-align: center">3</td>
+<td style="text-align: center">mle</td>
+<td style="text-align: center">3</td>
+<td style="text-align: center">3</td>
+</tr>
+<tr>
+<td><code>base_estimator</code></td>
+<td style="text-align: center">DecisionTree</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>criterion</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">gini</td>
+<td style="text-align: center"></td>
+<td style="text-align: center">gini</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>min_sample_split</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">0.316</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>min_samples_leaf</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">1</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>n_estimators</code></td>
+<td style="text-align: center">1</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">1</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>learning_rate</code></td>
+<td style="text-align: center">0.5</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>n_neighbors</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">1</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">1</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">10</td>
+</tr>
+<tr>
+<td><code>tot</code></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">1e-64</td>
+</tr>
+<tr>
+<td><code>random_state</code></td>
+<td style="text-align: center">42</td>
+<td style="text-align: center">42</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong><em>5. What is validation, and what’s a classic mistake you can make if you do it wrong?  How did you validate your analysis?  [relevant rubric item: “validation strategy”]</em></strong></p>
+
+<p>Validation is an approach to split the data into a a training set and a testing set. This allow us to train the model on a training set, and then test the performance of that model on an independent test dataset. This strategy can avoid overfitting data to our models, and also avoid the case where a model is too specific to the training data. </p>
+
+<p>I validated the dataset using StratifiedShuffleSplit function from sklearn, which also provided in the test<em>classifer() in test.py. The n</em>iter (represented by the folds variable) was set to 100, and  I used 90% data to train the model and 10% data to test the model. That means the model randomly samples 90% (10%) data to train (test) the model for each iteration, and averaged the scores for the final model validation. </p>
+
+<p>Five algorithms were tested, and all of them gave fairly good accuracies. The Decision tree and Adaboost and classifiers ended up performing the top 2 best models, with precision and recall values above 0.3. </p>
+
+<p><img src="Figure_models.png" alt="selected features" title="Selected features"></p>
+
+<p><strong><em>6. Give at least 2 evaluation metrics, and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]</em></strong></p>
+
+<ul>
+<li>Accuracy: It represents the ratio of correct prediction out of the total prediction made. In other words, it means how many percentage of POIs the model can correctly predict. The average accuracy for DecisionTree model is 0.8262, which means 82.62 % of predictions this model made were correct.</li>
+<li>Precision: It represents the ratio of correct positive prediction (True positives) made out of the total positive prediction made (True positives + False positives) . Here, the positive prediction means predicting the employee is a POI (POI returns &quot;1&quot;). 1997 total positive predictions (were made by the Decision Tree model on the test data, and the amount of these positive predictions that were correct was 695. This leads to the precision of model to be 0.348.</li>
+<li>Recall: It represents the ration of correct positive prediction (True positives) made out of the actual total predictions, that were indeed positive (True positives + False negatives). The recall value in this project means what percentage of actual POIs in the test dataset were correctly identified. The optimal Decision Tree model achieves
+a recall of 0.3475, which means only 34.75 % of POI were correctly identified among all the actual POIs.</li>
+</ul>
+
+<p>In many cases, the accuracy can be pretty good (&gt;85%), but still lacking good precision or recall (&lt;30%). It is important to note that a model has a very high accuracy does not mean it is a good model. There is also a trade-off between precision and recall, which needs to be balanced in the models. However, the Enron E+F dataset contains much more POIs than non-POIs (18 vs 127). With this unbalanced dataset, the precision and recall are useful metrics for evaluating the model. For example, the original Enron data contains 18 POIs over 145 employee. The optimal Decision Tree model can successfully identify 15 individual as POIs, where only 6 of them actually to be POIs. More data will definitely help to improve the performance and validation of models. </p>
+
+
+</body>
+
+</html>
