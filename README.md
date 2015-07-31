@@ -9,8 +9,8 @@ The goal of this project is to develop machine learning algorithm, together with
 
 ####Files
 
-- **Project summary** ([html](P4_report.html))    
-- **Questions** ([html](P4_questions.html))    
+- **Project summary** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_report.html)    
+- **Questions** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_questions.html))    
 - **References** ([txt](reference.txt))  
 - **Codes**
 	- [poi_id.py](poi_id.py)
