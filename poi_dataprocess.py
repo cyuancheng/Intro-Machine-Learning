@@ -19,7 +19,7 @@ def scale_features(features):
     return features
 
 
-def prep_features(df, features_list):
+def prep_features(df, features_list, feature_scaled):
 
     """
     Arguments:
@@ -34,7 +34,10 @@ def prep_features(df, features_list):
     df1 = df[features_list]
     features_df = df1.drop('poi', axis=1)#.astype(float)  # new features (pandas dataframe)
     labels_df = df1['poi']  # new labels (pandas dataframe)
-    features_df_scaled = scale_features(features_df) # scale features
+    if feature_scaled ==  True:
+        features_df_scaled = scale_features(features_df) # scale features
+    else:
+        features_df_scaled = features_df
     # for dictionary
     df2 = df[features_list]
     data_dict_new = df2.T.to_dict()  # data_dict (final)
@@ -43,6 +46,8 @@ def prep_features(df, features_list):
     features_list_new = ['poi'] + X_features  # selected features list (final)
     data = featureFormat(data_dict_new, features_list_new, sort_keys = True)
     labels, features = targetFeatureSplit(data)
-    features = scale_features(features)
+
+    if feature_scaled == True:
+        features = scale_features(features)
 
     return features, labels, features_df_scaled, labels_df
