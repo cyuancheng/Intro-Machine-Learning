@@ -20,12 +20,12 @@ from sklearn import preprocessing
 from sklearn.grid_search import GridSearchCV
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import classification_report
-from sklearn.metrics import make_scorer
-from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import accuracy_score
 from sklearn.feature_selection import SelectKBest
+
+from sklearn.cross_validation import StratifiedShuffleSplit
 
 from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
@@ -77,24 +77,18 @@ my_dataset = data_dict
 ### Extract features and labels from dataset for local testing
 
 # Feature selection using SelectKBest
-best_feature = get_k_best(df2, features_list, 5) # SelectKBest
+
+best_feature = get_k_best(df2, features_list, 6) # SelectKBest
 df_best_feature = pd.DataFrame.from_dict(best_feature, orient='index') #convert to pandas dataframe
-selected_features = ['poi'] + list(df_best_feature.sort(0, ascending=False).index.values)[0:5]
+selected_features =  list(df_best_feature.sort(0, ascending=False).index.values)[0:6]
 print "Select top " + str(5) + " features"
 print selected_features
 
-
-# load all features to get scaled features, and labels
-features, labels, features_df_scaled, labels_df = \
-prep_features(df2, features_list)
 
 # prepare the data in dictionary
 df3 = df2[selected_features]
 data_dict_new = df3.T.to_dict()
 
-from sklearn import cross_validation
-features_train, features_test, labels_train, labels_test = \
-cross_validation.train_test_split(features, labels, test_size=0.1, random_state=42)
 ### Task 4: Try a varity of classifiers
 
 ### Please name your classifier clf for easy export below.
@@ -102,38 +96,62 @@ cross_validation.train_test_split(features, labels, test_size=0.1, random_state=
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 # preliminary test for selected classifiers
-for clf in [DecisionTreeClassifier(),
-            LinearSVC(), GaussianNB(),
-            AdaBoostClassifier(), RandomForestClassifier(),
-           KNeighborsClassifier(), LogisticRegression()]:
+from poi_dataprocess import *
+features, labels, features_df_scaled, labels_df = \
+prep_features(df2, selected_features, True)
 
-    clf.fit(features_train, labels_train)
-    pred= clf.predict(features_test)
-    score=clf.score(features_test, labels_test)
-    precision = precision_score(labels_test,pred)
-    recall = recall_score(labels_test,pred)
+cv = StratifiedShuffleSplit(labels_df, n_iter=100, test_size=0.1, random_state = 42)
+# preliminary test for selected classifiers
+
+models = [DecisionTreeClassifier(), LinearSVC(), AdaBoostClassifier(),
+    RandomForestClassifier(), KNeighborsClassifier(), LogisticRegression()]
+
+#from poi_model import *
+for clf in models:
+    accuracy = evaluate_model(clf, features_df_scaled, labels_df, 'accuracy' , cv)
+    precision = evaluate_model(clf, features_df_scaled, labels_df, 'precision' , cv)
+    recall = evaluate_model(clf, features_df_scaled, labels_df, 'precision' , cv)
+
     print "---------------------------------------------------"
     print "classifier: {0},  score = {1}, precision = {2}, recall = {3}".\
-    format(clf, score, precision, recall)
+    format(clf, accuracy, precision, recall)
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall
 ### using our testing script.
 ### Because of the small size of the dataset, the script uses stratified
 ### shuffle split cross validation. For more info:
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
-print "####################################"
-print "The optimized parameters and scores:"
-clf = Pipeline(steps=[('pca', PCA(copy=True, n_components=3, whiten=False)), ('clf', DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
-            max_features=None, max_leaf_nodes=None, min_samples_leaf=1,
-            min_samples_split=0.31622776601683794,
-            min_weight_fraction_leaf=0.0, random_state=42, splitter='best'))])
+print "#####  Start parameter optimzation of Adaboost using GridSearchCV ###############################"
+########################################
+# uncommment below for find the optimal parameters of Adaboost using GridSearchCV
+features, labels, features_df_scaled, labels_df = \
+prep_features(df2, selected_features, False)
+cv = StratifiedShuffleSplit(labels_df, n_iter=100, test_size=0.1, random_state = 42)
 
-my_dataset = data_dict_new
-features_list = selected_features
+pipeline, params = clf_adaboost()
 
-test_classifier(clf, my_dataset, features_list)
+GridSearch = GridSearchCV(pipeline, param_grid=params, n_jobs = 1, cv=cv ,
+ scoring='precision', verbose=0)
+GridSearch.fit(features_df_scaled, labels_df)
+print "#####  best_estimator for Adaboost  #####"
+clf_best_adaboost = GridSearch.best_estimator_
+print clf_best_adaboost
+print "------------------------------------------------------------------------"
+print "Cross-validated precision = ",GridSearch.best_score_
+print "------------------------------------------------------------------------"
+print "Best Parameters = ", GridSearch.best_params_
+print "------------------------------------------------------------------------"
+print "Scores using optimal parameters:"
+accuracy = evaluate_model(clf_best_adaboost, features_df_scaled, labels_df, 'accuracy' , cv)
+precision = evaluate_model(clf_best_adaboost, features_df_scaled, labels_df, 'precision' , cv)
+recall = evaluate_model(clf_best_adaboost, features_df_scaled, labels_df, 'recall' , cv)
+print 'Accuracy ={0},  Precision = {1}, Recall = {2}'.format(accuracy, precision, recall)
+
+
+print "#####  Start valudation using test_classifier() ###############################"
+test_classifier(clf_best_adaboost, data_dict_new, selected_features)
 
 ### Dump your classifier, dataset, and features_list so
 ### anyone can run/check your results.
 
-dump_classifier_and_data(clf, my_dataset, features_list)
+dump_classifier_and_data(clf_best_adaboost, data_dict_new, selected_features)

@@ -36,3 +36,50 @@ def get_k_best(df, features_list, k):
     k_best_features = dict(sorted_pairs[:k])
 
     return k_best_features
+
+def clf_adaboost():
+    '''
+    AdaBoost
+    return: pipeline, and optimal parameters
+    '''
+    from sklearn.pipeline import Pipeline
+    from sklearn.decomposition import PCA
+    from sklearn.ensemble import AdaBoostClassifier
+    from sklearn.tree import DecisionTreeClassifier
+
+    pipeline = Pipeline([
+                            ('pca', PCA()),
+                            ('clf', AdaBoostClassifier())
+                       ])
+
+    params = {
+        'pca__n_components': [1, 2, 3,4,5, 'mle'],
+        'clf__base_estimator' : [
+            DecisionTreeClassifier(criterion='gini', max_depth=None,
+            min_samples_leaf=1, min_samples_split=0.31622776601683794,
+            random_state=42, splitter='random')
+                                ],    # optimial estimator
+        "clf__n_estimators": [1,2,3,4,5],
+        "clf__learning_rate" :[0.5,1,1.5],#np.logspace(-1, 1, 8),
+        "clf__random_state" : [42]
+
+            }
+
+    return pipeline, params
+
+
+
+def evaluate_model(model, features, labels, score , cv):
+    '''
+        fucntion to evaluate the score of model
+        return: score(can be accuracy, precision, or recall)
+    '''
+    from sklearn.cross_validation import StratifiedKFold, cross_val_score
+    import numpy as np
+    return np.mean(cross_val_score(
+        model,
+        features,
+        labels,
+        scoring= score,
+        cv=cv,
+        n_jobs=1))
