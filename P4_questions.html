@@ -97,11 +97,11 @@ sup {
 </style>
 </head>
 <body>
-<h3 id="toc_0">Project 4: Identifying Fraud from Enron Email | Intro Machine Learning</h3>
+<h3 id="toc_0">Project 4: Identifying Fraud from Enron Email ( Intro Machine Learning )</h3>
 
 <ul>
 <li>Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com) </li>
-<li>Last updated: July 31, 2015</li>
+<li>Last updated: August 4, 2015</li>
 </ul>
 
 <hr>
@@ -137,7 +137,7 @@ sup {
 
 <h4 id="toc_5">(1) Create features</h4>
 
-<p>I engineered the following three features. The reason is that individuals that are in frequent contact with POIs are likely to be POIs.</p>
+<p>We expect that POIs contact with each other more frequently than with non-POIs, so this might be key information for predicting POIs. Therefore, I engineered the following three features:</p>
 
 <table>
 <thead>
@@ -163,7 +163,11 @@ sup {
 </tbody>
 </table>
 
-<p>But unfortunately, they did not improve the overall performance of the modeling, so they were not included in the final model.</p>
+<p>I compare the performance of final model using AdaBoost before and after adding these new features. </p>
+
+<p><img src="Figure_new_features.png" alt="new features" title="new features"></p>
+
+<p>These new features did not improve the overall performance of the final algorithm using AdaBooster, so they were not included in the final model.</p>
 
 <h4 id="toc_6">(2) Selected features</h4>
 
@@ -176,14 +180,14 @@ sup {
 <img src="Fig_importance.png" alt="feature importance" title="feature importance"></p>
 
 <p>I then removed the features by hand to optimize the score of the model. 
-Finally, I chose the following featurest:</p>
+Finally, I chose the following features:</p>
 
 <pre><code>&#39;exercised_stock_options&#39;, &#39;total_stock_value&#39;,
  &#39;bonus&#39;, &#39;salary&#39;,  &#39;deferred_income&#39;</code></pre>
 
 <p><strong><em>3. What algorithm did you end up using?  What other one(s) did you try? [relevant rubric item: “pick an algorithm”]</em></strong></p>
 
-<p>Initially, I fed the top 5 features that were found by SelectKBest to the following algorithms with default parameters and compared their scores.</p>
+<p>Initially, I fed the top 5 features that were found by SelectKBest to the following six algorithms with default parameters and compared their scores.</p>
 
 <table>
 <thead>
@@ -197,192 +201,109 @@ Finally, I chose the following featurest:</p>
 
 <tbody>
 <tr>
-<td>Naive Bayes</td>
-<td style="text-align: center">0.9333</td>
-<td style="text-align: center">0.5</td>
-<td style="text-align: center">1.0</td>
-</tr>
-<tr>
-<td>KNeighbors</td>
-<td style="text-align: center">0.9333</td>
-<td style="text-align: center">0</td>
-<td style="text-align: center">0</td>
-</tr>
-<tr>
-<td>AdaBoost</td>
-<td style="text-align: center">0.9333</td>
-<td style="text-align: center">0</td>
-<td style="text-align: center">0</td>
-</tr>
-<tr>
 <td>Logistic Regression</td>
-<td style="text-align: center">0.9333</td>
-<td style="text-align: center">0</td>
-<td style="text-align: center">0</td>
-</tr>
-<tr>
-<td>Random Forest</td>
-<td style="text-align: center">0.8667</td>
-<td style="text-align: center">0</td>
-<td style="text-align: center">0</td>
+<td style="text-align: center">0.8747</td>
+<td style="text-align: center">0.2100</td>
+<td style="text-align: center">0.2100</td>
 </tr>
 <tr>
 <td>LinearSVC</td>
-<td style="text-align: center">0.8667</td>
-<td style="text-align: center">0</td>
-<td style="text-align: center">0</td>
+<td style="text-align: center">0.8727</td>
+<td style="text-align: center">0.3433</td>
+<td style="text-align: center">0.3433</td>
+</tr>
+<tr>
+<td>KNeighbors</td>
+<td style="text-align: center">0.8680</td>
+<td style="text-align: center">0.1550</td>
+<td style="text-align: center">0.1550</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td style="text-align: center">0.8547</td>
+<td style="text-align: center">0.2720</td>
+<td style="text-align: center">0.2961</td>
+</tr>
+<tr>
+<td>AdaBoost</td>
+<td style="text-align: center">0.8440</td>
+<td style="text-align: center">0.3598</td>
+<td style="text-align: center">0.3448</td>
 </tr>
 <tr>
 <td>Decision Tree</td>
-<td style="text-align: center">0.7333</td>
-<td style="text-align: center">0</td>
-<td style="text-align: center">0</td>
+<td style="text-align: center">0.7800</td>
+<td style="text-align: center">0.1955</td>
+<td style="text-align: center">0.2120</td>
 </tr>
 </tbody>
 </table>
 
-<p>They gives high accuracies, but the precision and recall are zero for all the models, except the Naive Bayes. Surprisingly, Baive Bayes has the highest accuracy and precision with a recall of 1.0. It is too high to be true, and it may be due to overfitting. </p>
+<p><img src="Figure_models_test_initial.png" alt="model test" title="model test"></p>
 
-<p>I fined tune the parameters of Decision Tree, AdaBoost, KNeighbors, Random Forest, and Logistic Regression to get the optimal performance of the models.  Finally, I end up using AdaBoost (with optimal Decision Tree estimator) and Decision Tree algorithms, because the scores of precision and recall for both models are the highest among other algorithms (&gt; 0.3). </p>
+<p>These models give high accuracies (&gt;0.78), but they have low precision and recall (0.1~0.3). Among these tested models, <em>LinearSVC</em> and <em>AdaBoost</em> have both precision and recall scores above 0.3.  </p>
+
+<p>I fined tune the parameters of LinearSVC and AdaBoost to get the optimal performance of the models.  Finally, I end up using AdaBoost (with optimal Decision Tree estimator) , because its scores of precision and recall are the highest among other algorithms (&gt; 0.3). </p>
 
 <p><strong><em>4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm?  (Some algorithms don’t have parameters that you need to tune--if this is the case for the one you picked, identify and briefly explain how you would have done it if you used, say, a decision tree classifier). [relevant rubric item: “tune the algorithm”]</em></strong></p>
 
-<p>Tuning the parameters of algorithm means to optimize the performance of the model to the particular features in the dataset. The performance can be determined by accuracy, precision, and recall scores.</p>
+<p>Tuning the parameters of algorithm means to optimize the performance of the model to the particular features in the dataset. The performance can be determined by accuracy, precision, and recall scores. Here, I fined tune the parameters of <strong><em>LinearSVC</em></strong> and  <strong><em>AdaBoost</em></strong>  to get the optimal performance of the models.  </p>
 
-<p>To optimize the performance of model, I first scales the selected features to be between 0 and 1 using MinMaxSxaler. The scaled features was fed into Principal Components Analysis (PCA) dimensional reduction algorithm as a part of GridSearchCV pipeline, when searching the optimal estimator parameters for particular classification algorithm. These two steps were used during each cross-validation step for the grid search and optimal parameters. For the Decision Tree Classifier, I found the optimal value of <code>min_sample_split</code>and <code>min_samples_leaf</code> to get high accuracy, precision and recall was 0.316 and 1, respectively.</p>
+<p>To optimize the performance of model, I first scales the selected features to be between 0 and 1 using MinMaxScaler. The scaled features was fed into Principal Components Analysis (PCA) dimensional reduction algorithm as a part of GridSearchCV pipeline, when searching the optimal estimator parameters for particular classification algorithm. These two steps were used during each cross-validation step for the grid search and optimal parameters. </p>
+
+<p>Finally, I end up using AdaBoost (with optimal Decision Tree estimator) , because its scores of precision and recall are the highest among other algorithms (&gt; 0.3). The scores using for optimal AdaBoost and LinearSVC are below</p>
 
 <table>
 <thead>
 <tr>
-<th>optimized parameter</th>
-<th style="text-align: center">Adaboost</th>
-<th style="text-align: center">Decision Tree</th>
-<th style="text-align: center">KNeighborss</th>
-<th style="text-align: center">Random Forest</th>
-<th style="text-align: center">Logistic Regression</th>
+<th>Algorithm</th>
+<th style="text-align: center">Accuracy</th>
+<th style="text-align: center">Precision</th>
+<th style="text-align: center">Recall</th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
-<td><code>n_components</code> (PCA)</td>
-<td style="text-align: center">3</td>
-<td style="text-align: center">3</td>
-<td style="text-align: center">mle</td>
-<td style="text-align: center">3</td>
-<td style="text-align: center">3</td>
+<td>AdaBoost</td>
+<td style="text-align: center">0.8227</td>
+<td style="text-align: center">0.3318</td>
+<td style="text-align: center">0.3650</td>
 </tr>
 <tr>
-<td><code>base_estimator</code></td>
-<td style="text-align: center">DecisionTree</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>criterion</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">gini</td>
-<td style="text-align: center"></td>
-<td style="text-align: center">gini</td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>min_sample_split</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">0.316</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>min_samples_leaf</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">1</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>n_estimators</code></td>
-<td style="text-align: center">1</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">1</td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>learning_rate</code></td>
-<td style="text-align: center">0.5</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>n_neighbors</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">1</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>p</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">1</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-<tr>
-<td><code>C</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">10</td>
-</tr>
-<tr>
-<td><code>tot</code></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center">1e-64</td>
-</tr>
-<tr>
-<td><code>random_state</code></td>
-<td style="text-align: center">42</td>
-<td style="text-align: center">42</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
+<td>LinearSVC</td>
+<td style="text-align: center">0.8733</td>
+<td style="text-align: center">0.3433</td>
+<td style="text-align: center">0.2200</td>
 </tr>
 </tbody>
 </table>
 
+<p>The high precision and recall of LinearSVC in the initial test might be due to overfitting. The optimized parameters for AdaBoost is:</p>
+
+<pre><code>Pipeline(steps=[(&#39;pca&#39;, PCA(copy=True, n_components=3, whiten=False)), 
+        (&#39;clf&#39;, AdaBoostClassifier(algorithm=&#39;SAMME.R&#39;,
+          base_estimator=DecisionTreeClassifier(class_weight=None, criterion=&#39;gini&#39;,
+           max_depth=None, max_features=None, max_leaf_nodes=None, 
+           min_samples_leaf=1, min_samples_split=0.316227766017, 
+           min_weight_fraction_leaf=0.0, random_state=42, splitter=&#39;random&#39;),
+          learning_rate=0.5, n_estimators=1, random_state=42))])</code></pre>
+
 <p><strong><em>5. What is validation, and what’s a classic mistake you can make if you do it wrong?  How did you validate your analysis?  [relevant rubric item: “validation strategy”]</em></strong></p>
 
-<p>Validation is an approach to split the data into a a training set and a testing set. This allow us to train the model on a training set, and then test the performance of that model on an independent test dataset. This strategy can avoid overfitting data to our models, and also avoid the case where a model is too specific to the training data. </p>
+<p>The classic way of doing <em>validation</em> is to separate dataset into a training set and a testing set, and train the specific model on the training set. Then we test our model on the testing set to see how the performance evaluated from predicted values of the testing set match up the actual values for the testing set. Although this strategy can avoid overfitting data to our models, validation can go wrong if data splitting is biased. For example, in some cases, valuable information is only contained in the test set, not in the training set, or the size of the dataset is very limited. A proper way to solve these problems are to randomly select the observations for the test set (Stratified Shuffle Split validation) or to split dataset into multiple-consecutive sets (k-fold validation), and take the average of the testing results generated by the classifier. </p>
 
-<p>I validated the dataset using StratifiedShuffleSplit function from sklearn, which also provided in the test<em>classifer() in test.py. The n</em>iter (represented by the folds variable) was set to 100, and  I used 90% data to train the model and 10% data to test the model. That means the model randomly samples 90% (10%) data to train (test) the model for each iteration, and averaged the scores for the final model validation. </p>
-
-<p>Five algorithms were tested, and all of them gave fairly good accuracies. The Decision tree and Adaboost and classifiers ended up performing the top 2 best models, with precision and recall values above 0.3. </p>
-
-<p><img src="Figure_models.png" alt="selected features" title="Selected features"></p>
+<p>In this project, I validated the dataset using StratifiedShuffleSplit function provided by sklearn. The n_iter (represented by the folds variable) was set to 100, and  I used 90% data to train the model and 10% data to test the model. That means the model randomly samples 90% (10%) data to train (test) the model for each iteration, and averaged the scores for the model validation. </p>
 
 <p><strong><em>6. Give at least 2 evaluation metrics, and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]</em></strong></p>
 
 <ul>
-<li>Accuracy: It represents the ratio of correct prediction out of the total prediction made. In other words, it means how many percentage of POIs the model can correctly predict. The average accuracy for DecisionTree model is 0.8262, which means 82.62 % of predictions this model made were correct.</li>
-<li>Precision: It represents the ratio of correct positive prediction (True positives) made out of the total positive prediction made (True positives + False positives) . Here, the positive prediction means predicting the employee is a POI (POI returns &quot;1&quot;). 1997 total positive predictions (were made by the Decision Tree model on the test data, and the amount of these positive predictions that were correct was 695. This leads to the precision of model to be 0.348.</li>
-<li>Recall: It represents the ration of correct positive prediction (True positives) made out of the actual total predictions, that were indeed positive (True positives + False negatives). The recall value in this project means what percentage of actual POIs in the test dataset were correctly identified. The optimal Decision Tree model achieves
-a recall of 0.3475, which means only 34.75 % of POI were correctly identified among all the actual POIs.</li>
+<li><p>Accuracy: It represents the ratio of correct prediction out of the total prediction made. In other words, it means how many percentage of POIs the model can correctly predict. The average accuracy for optimal AdaBoost model is 0.8227, which means 82.27 % of predictions this model made were correct.</p></li>
+<li><p>Precision: It represents the ratio of correct positive prediction (True positives) made out of the total positive prediction made (True positives + False positives) . Here, the positive prediction means predicting the employee who is a POI (POI returns &quot;1&quot;). The average precision of the optimal AdaBoost model is 0.3318, which means that 33.18 % of the total positive prediction made by model were correct.</p></li>
+<li><p>Recall: It represents the ratio of correct positive prediction (True positives) made out of the actual total predictions, that were indeed positive (True positives + False negatives). The recall value in this project means what percentage of actual POIs in the test dataset were correctly identified. The optimal AdaBoost model achieves a recall of 0.3650, which means only 36.50 % of POI were correctly identified among all the actual POIs.</p></li>
 </ul>
 
-<p>In many cases, the accuracy can be pretty good (&gt;85%), but still lacking good precision or recall (&lt;30%). It is important to note that a model has a very high accuracy does not mean it is a good model. There is also a trade-off between precision and recall, which needs to be balanced in the models. However, the Enron E+F dataset contains much more POIs than non-POIs (18 vs 127). With this unbalanced dataset, the precision and recall are useful metrics for evaluating the model. For example, the original Enron data contains 18 POIs over 145 employee. The optimal Decision Tree model can successfully identify 15 individual as POIs, where only 6 of them actually to be POIs. More data will definitely help to improve the performance and validation of models. </p>
+<p>In many cases, the accuracy can be pretty good (&gt;80%), but still lacking good precision or recall (&lt;30%). It is important to note that a model has a very high accuracy does not mean it is a good model. There is also a trade-off between precision and recall, which needs to be balanced in the models. However, the Enron E+F dataset contains much more POIs than non-POIs (18 vs 127). With this unbalanced dataset, the precision and recall are useful metrics for evaluating the model. For example, the original Enron data contains 18 POIs over 145 employee. The optimal AdaBoost model can successfully identify 15 individual as POIs, where only 5 of them actually to be POIs. More data will definitely help to improve the performance and validation of models. </p>
 
 
 </body>

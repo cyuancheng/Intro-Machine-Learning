@@ -1,6 +1,6 @@
 ###Project 4: Identifying Fraud from Enron Email | Intro Machine Learning
 - Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com) 
-- Last updated: July 31, 2015
+- Last updated: August 4, 2015
 
 #### Information
 
