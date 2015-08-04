@@ -1,9 +1,7 @@
 
 """
-Library for returning sk-learn pipelines and parameters
-for use in predictive model building.
 This module provides pipeline and parameters creation functions in building
-POI prediction models
+POI prediction models and evaluating the model performance 
 """
 
 def get_k_best(df, features_list, k):
