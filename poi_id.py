@@ -81,6 +81,7 @@ my_dataset = data_dict
 best_feature = get_k_best(df2, features_list, 6) # SelectKBest
 df_best_feature = pd.DataFrame.from_dict(best_feature, orient='index') #convert to pandas dataframe
 selected_features =  list(df_best_feature.sort(0, ascending=False).index.values)[0:6]
+print "##############################################################################"
 print "Select top " + str(5) + " features"
 print selected_features
 
@@ -96,6 +97,8 @@ data_dict_new = df3.T.to_dict()
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 # preliminary test for selected classifiers
+print "###### Performance of various models using selected features  ########################################################################"
+print "Select top " + str(5) + " features"
 from poi_dataprocess import *
 features, labels, features_df_scaled, labels_df = \
 prep_features(df2, selected_features, True)
@@ -121,7 +124,8 @@ for clf in models:
 ### Because of the small size of the dataset, the script uses stratified
 ### shuffle split cross validation. For more info:
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
-print "#####  Start parameter optimzation of Adaboost using GridSearchCV ###############################"
+print "#######################################################################################"
+print "#####  Parameter tuning and optimzation of Adaboost using GridSearchCV ################"
 ########################################
 # uncommment below for find the optimal parameters of Adaboost using GridSearchCV
 features, labels, features_df_scaled, labels_df = \
@@ -147,8 +151,8 @@ precision = evaluate_model(clf_best_adaboost, features_df_scaled, labels_df, 'pr
 recall = evaluate_model(clf_best_adaboost, features_df_scaled, labels_df, 'recall' , cv)
 print 'Accuracy ={0},  Precision = {1}, Recall = {2}'.format(accuracy, precision, recall)
 
-
-print "#####  Start valudation using test_classifier() ###############################"
+print "#########################################################################"
+print "#####  Valudation using test_classifier() #########################"
 test_classifier(clf_best_adaboost, data_dict_new, selected_features)
 
 ### Dump your classifier, dataset, and features_list so

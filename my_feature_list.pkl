@@ -1,7 +1,6 @@
 (lp0
 S'poi'
 p1
-ag1
 aS'exercised_stock_options'
 p2
 aS'total_stock_value'
@@ -10,4 +9,6 @@ aS'bonus'
 p4
 aS'salary'
 p5
+aS'deferred_income'
+p6
 a.
