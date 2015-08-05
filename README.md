@@ -1,5 +1,5 @@
 ###Project 4: Identifying Fraud from Enron Email | Intro Machine Learning
-- Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com) 
+- Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com)
 - Last updated: August 4, 2015
 
 #### Information
@@ -9,8 +9,8 @@ The goal of this project is to develop machine learning algorithm, together with
 
 ####Files
 
-- **Project summary** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_report.html))    
-- **Questions** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_questions.html))    
+- **Project summary** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_report.html))
+- **Questions** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_questions.html))
 - **References** ([txt](reference.txt))  
 - **Codes**
 	- [poi_id.py](poi_id.py)
@@ -18,3 +18,4 @@ The goal of this project is to develop machine learning algorithm, together with
 	- [poi_dataprocess.py](poi_dataprocess.py)
 	- [Project4_ML_workflow.ipynb](Project4_ML_workflow.ipynb)
 
+- **Certificate**  [(pdf)](certificate-3.pdf)
