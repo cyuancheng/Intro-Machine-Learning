@@ -37,5 +37,5 @@ I used pandas and Python to clean and explore the E+F dataset, including removin
 	- [poi_id.py](poi_id.py)
 	- [poi_model.py](poi_model.py)
 	- [poi_dataprocess.py](poi_dataprocess.py)
-	- [Project4_ML_workflow.ipynb](Project4_ML_workflow.ipynb) (work flow file)
+	- [Work flow ipynb file](http://nbviewer.ipython.org/github/cyuancheng/Intro-Machine-Learning/blob/master/Project4_ML_workflow.ipynb) (work flow file)
 - **Certificate**  [(pdf)](certificate-3.pdf)
