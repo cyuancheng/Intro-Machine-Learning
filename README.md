@@ -30,7 +30,7 @@ I used pandas and Python to clean and explore the E+F dataset, including removin
 
 ###Files
 
-- **Project Summary** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_report.html))
+- **Project Summary** ([html](http://cyuancheng.github.io/Intro-Machine-Learning/))
 - **Questions** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_questions.html))
 - **References** ([txt](reference.txt))  
 - **Codes**
