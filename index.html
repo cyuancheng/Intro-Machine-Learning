@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Identifying Fraud from Enron Email using Machine Learning by cyuancheng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Identifying Fraud from Enron Email using Machine Learning</h1>
+      <h2 class="project-tagline">Chi-Yuan Cheng, Udacity Data Analyst Nanodegree</h2>
+      <a href="https://github.com/cyuancheng/Intro-Machine-Learning" class="btn">View on GitHub</a>
+      <a href="https://github.com/cyuancheng/Intro-Machine-Learning/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/cyuancheng/Intro-Machine-Learning/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="project-4-identifying-fraud-from-enron-email--intro-machine-learning" class="anchor" href="#project-4-identifying-fraud-from-enron-email--intro-machine-learning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 4: Identifying Fraud from Enron Email  (Intro Machine Learning)</h2>
+
+<ul>
+<li>Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com) </li>
+<li>Last updated: August 4, 2015</li>
+</ul>
+
+<h3>
+<a id="1-information" class="anchor" href="#1-information" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Information</h3>
+
+<p>Enron was an infamous American company which was known for its extensive fraud. Enron marketed electricity and natural gas, delivered energy and other physical commodities around the world. It was once ranked the sixth largest energy company in the world. Most of the top Enron's executives were tried for fraud after it was revealed in November 2001 that Enron's earnings had been overstated by several hundred million dollars. Enron paid the top 140 executives $680 million in 2001. Among others, Kenneth Lay (founder, chairman of the Enron board directors) received $67.4 million and Jeffrey Skilling (former CEO) received $41.8 million. Moreover, the top executives sold their company stock prior to the company's downfall. The Enron scandal was one of the five largest audit and accountancy partnerships in the world and Enron was cited as the biggest audit failure.</p>
+
+<p>On the other hands, the Enron Corpus is believed to be one of the largest publicly available collection of real-world email data. It has been widely used for research in social network analysis, natural language processing, and machine learning. The Enron financial records of former executives and employees were also released during the fraud trials.  </p>
+
+<p>The goal of this project is to develop machine learning algorithm, together with scikit-learn Python module, to predict the person of interest (POI) of a fraud from the email and financial (E+F) dataset. POIs were ‘individuals who were indicted, reached a settlement, or plea deal with the government, or testified in exchange for prosecution immunity.’  The E+F dataset from the Enron Corpus was used as features for the POI prediction.</p>
+
+<h3>
+<a id="2-the-enron-data" class="anchor" href="#2-the-enron-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. The Enron Data</h3>
+
+<p>Enron E + F dataset, which can be download on the Internet.</p>
+
+<p>It contains:</p>
+
+<ul>
+<li> Length of dataset: 146</li>
+<li> Number of feature: 21</li>
+<li> POIs : 18 (the poi feature set as <code>True</code>)</li>
+</ul>
+
+<p>There are many features with missing values (NaN) in the dataset:</p>
+
+<table>
+<thead>
+<tr>
+<th>features</th>
+<th align="center">Numbers of NaN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loan_advances</code></td>
+<td align="center">142</td>
+</tr>
+<tr>
+<td><code>director_fees</code></td>
+<td align="center">129</td>
+</tr>
+<tr>
+<td><code>restricted_stock_deferred</code></td>
+<td align="center">128</td>
+</tr>
+<tr>
+<td><code>deferral_payments</code></td>
+<td align="center">107</td>
+</tr>
+<tr>
+<td><code>deferred_income</code></td>
+<td align="center">97</td>
+</tr>
+<tr>
+<td><code>long_term_incentive</code></td>
+<td align="center">80</td>
+</tr>
+<tr>
+<td><code>bonus</code></td>
+<td align="center">64</td>
+</tr>
+<tr>
+<td><code>shared_receipt_with_poi</code></td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td><code>from_this_person_to_poi</code></td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td><code>from_messages</code></td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td><code>to_messages</code></td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td><code>from_poi_to_this_person</code></td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td><code>other</code></td>
+<td align="center">53</td>
+</tr>
+<tr>
+<td><code>expenses</code></td>
+<td align="center">51</td>
+</tr>
+<tr>
+<td><code>salary</code></td>
+<td align="center">51</td>
+</tr>
+<tr>
+<td><code>exercised_stock_options</code></td>
+<td align="center">44</td>
+</tr>
+<tr>
+<td><code>restricted_stock</code></td>
+<td align="center">36</td>
+</tr>
+<tr>
+<td><code>email_address</code></td>
+<td align="center">35</td>
+</tr>
+<tr>
+<td><code>total_payments</code></td>
+<td align="center">21</td>
+</tr>
+<tr>
+<td><code>total_stock_value</code></td>
+<td align="center">20</td>
+</tr>
+</tbody>
+</table>
+
+<p>The features in the dataset are listed below:</p>
+
+<p><em>financial feature:</em></p>
+
+<pre><code>'bonus', 'deferral_payments', 'deferred_income', 'director_fees', 
+'exercised_stock_options', 'expenses', 'loan_advances', 'long_term_incentive',
+ 'other', 'restricted_stock', 'restricted_stock_deferred',
+ 'salary', 'total_payments', 'total_stock_value'
+</code></pre>
+
+<p><em>email feature:</em></p>
+
+<pre><code>'email_address', 'from_messages', 'from_poi_to_this_person', 
+'from_this_person_to_poi', 'to_messages', 'shared_receipt_with_poi', 
+</code></pre>
+
+<h3>
+<a id="3-feature-processing" class="anchor" href="#3-feature-processing" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Feature Processing</h3>
+
+<h4>
+<a id="outliers" class="anchor" href="#outliers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Outliers</h4>
+
+<p>I removed the following entries in the dataset.</p>
+
+<ol>
+<li>The <code>TOTAL</code>  is the summation of all the data points for each feature, and it is the biggest Enron E+F dataset outlier. </li>
+<li>The<code>THE TRAVEL AGENCY IN THE PARK</code> is a travel agency, not the name of employee at Enron.</li>
+<li>The <code>LOCKHART EUGENE E</code> missed all the feature values, and is not very useful in the dataset.</li>
+<li>The <code>email_address</code> feature is also a outliner, because it is a person's email address and is not useful to identify POIs.</li>
+</ol>
+
+<p>This dataset contains lots of missing values (NaN). Many machine learning models don't like NaN. If we just fill the NaN values with zero, it may bias the data towards low values. The solution here is to fill the NaN values with median values for each feature.</p>
+
+<p>In addition, there are three outliers in the features of salary and bonus. Two people (Jeffrey Skilling, Kenneth Lay) made salaries more than 1 million dollars, and two people (John Lavorato, Kenneth Lay) made a bonus of over 7 million dollars. However, I decided to not remove these extreme values from the dataset. It is because these extreme values might significantly affect the fraud at Enron and could be key parameters to identity the POIs.</p>
+
+<h4>
+<a id="new-features" class="anchor" href="#new-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>New features</h4>
+
+<p>We expect that POIs contact with each other more frequently than with non-POIs, so this might be key information to predict POIs. Therefore, I engineered the following three features:</p>
+
+<table>
+<thead>
+<tr>
+<th>new  features</th>
+<th align="center">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fraction from poi</code></td>
+<td align="center">fraction of messages from a PO to that person I</td>
+</tr>
+<tr>
+<td><code>fraction to poi</code></td>
+<td align="center">fraction of messages from that person to a POI</td>
+</tr>
+<tr>
+<td><code>fraction email with poi</code></td>
+<td align="center">fraction of messages to and from that person to a POI</td>
+</tr>
+</tbody>
+</table>
+
+<p>As will be evaluated in more detail later, these new features did not improve the overall performance of the final algorithm, so they were not included in the final model.</p>
+
+<h4>
+<a id="feature-selection" class="anchor" href="#feature-selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Selection</h4>
+
+<p>Before feeding the features into any models, it is necessary to scale the feature values to be between 0 and 1. It is because if one feature has a broad range of values, the outcome will be governed by this particular feature. Therefore, the range of all feature values need to be normalized, so that each feature contributes approximately proportionately to the final outcome.</p>
+
+<p>I used SelectKBest to search the best features in E+F feature list, according to the ANOVA F-value classification scoring function, as below. This step can get rid of some unnecessary features that may overfit the predictive model.</p>
+
+<p><img src="https://raw.githubusercontent.com/cyuancheng/Intro-Machine-Learning/master/Fig_SelectKBest_features.png" alt="selected features" title="Selected features"></p>
+
+<p>The top 15 features from SelectKBest were fed to the DecisionTreeClassifier algorithm to determine the feature importance. </p>
+
+<p><img src="https://raw.githubusercontent.com/cyuancheng/Intro-Machine-Learning/master/Fig_importance.png" alt="feature importance" title="feature importance"></p>
+
+<p>I then removed the features by hand to optimize the score of the model. 
+Finally, I chose the following features:</p>
+
+<pre><code>'exercised_stock_options', 'total_stock_value',
+ 'bonus', 'salary',  'deferred_income'
+</code></pre>
+
+<h3>
+<a id="4-algorithm-selection-and-tuning" class="anchor" href="#4-algorithm-selection-and-tuning" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Algorithm Selection and Tuning</h3>
+
+<h4>
+<a id="preliminary-test" class="anchor" href="#preliminary-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preliminary test</h4>
+
+<p>Initially, I fed the top 5 features that were found by SelectKBest to the following six algorithms with default parameters and compared their scores.</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th align="center">Accuracy</th>
+<th align="center">Precision</th>
+<th align="center">Recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic Regression</td>
+<td align="center">0.8747</td>
+<td align="center">0.2100</td>
+<td align="center">0.2100</td>
+</tr>
+<tr>
+<td>LinearSVC</td>
+<td align="center">0.8727</td>
+<td align="center">0.3433</td>
+<td align="center">0.3433</td>
+</tr>
+<tr>
+<td>KNeighbors</td>
+<td align="center">0.8680</td>
+<td align="center">0.1550</td>
+<td align="center">0.1550</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td align="center">0.8547</td>
+<td align="center">0.2720</td>
+<td align="center">0.2961</td>
+</tr>
+<tr>
+<td>AdaBoost</td>
+<td align="center">0.8440</td>
+<td align="center">0.3598</td>
+<td align="center">0.3448</td>
+</tr>
+<tr>
+<td>Decision Tree</td>
+<td align="center">0.7800</td>
+<td align="center">0.1955</td>
+<td align="center">0.2120</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="https://raw.githubusercontent.com/cyuancheng/Intro-Machine-Learning/master/Figure_models_test_initial.png" alt="model test" title="model test"></p>
+
+<p>These models give high accuracies (&gt;0.78), but they have low precision and recall (0.1~0.3). Among these tested models, <em>LinearSVC</em> and <em>AdaBoost</em> have precision and recall scores above 0.3.  </p>
+
+<h4>
+<a id="analysis-validation-and-performance" class="anchor" href="#analysis-validation-and-performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis Validation and Performance</h4>
+
+<p>Tuning the parameters of algorithm means to optimize the performance of the model to the particular features in the dataset. The performance can be determined by accuracy, precision, and recall scores. Here, I fined tune the parameters of <strong><em>LinearSVC</em></strong> and  <strong><em>AdaBoost</em></strong>  to get the optimal performance of the models.  </p>
+
+<p>To optimize the performance of model, I first scales the selected features to be between 0 and 1 using MinMaxScaler. The scaled features was fed into Principal Components Analysis (PCA) dimensional reduction algorithm as a part of GridSearchCV pipeline, when searching the optimal estimator parameters for particular classification algorithm. These two steps were used during each cross-validation step for the grid search and optimal parameters. </p>
+
+<p>Finally, I end up using <strong><em>AdaBoost</em></strong> (with optimal Decision Tree estimator) , because its scores of precision and recall are the highest among other algorithms (&gt; 0.3). The scores using for optimal AdaBoost and LinearSVC are below</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th align="center">Accuracy</th>
+<th align="center">Precision</th>
+<th align="center">Recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AdaBoost</td>
+<td align="center">0.8227</td>
+<td align="center">0.3318</td>
+<td align="center">0.3650</td>
+</tr>
+<tr>
+<td>LinearSVC</td>
+<td align="center">0.8733</td>
+<td align="center">0.3433</td>
+<td align="center">0.2200</td>
+</tr>
+</tbody>
+</table>
+
+<p>The optimized parameters for AdaBoost is:</p>
+
+<pre><code>Pipeline(steps=[('pca', PCA(copy=True, n_components=3, whiten=False)), ('clf', AdaBoostClassifier(algorithm='SAMME.R',
+          base_estimator=DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
+            max_features=None, max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=0.316227766017, min_weight_fraction_leaf=0.0,
+            random_state=42, splitter='random'),
+          learning_rate=0.5, n_estimators=1, random_state=42))])
+
+</code></pre>
+
+<p>The classic way of doing <em>validation</em> is to separate dataset into a training set and a testing set, and train the specific model on the training set. Then we test our model on the testing set to see how the performance evaluated from predicted values of the testing set match up the actual values for the testing set. Although this strategy can avoid overfitting data to our models, validation can go wrong if data splitting is biased. For example, in some cases, valuable information is only contained in the test set, not in the training set, or the size of the dataset is very limited. A proper way to solve these problems are to randomly select the observations for the test set (Stratified Shuffle Split validation) or to split dataset into multiple-consecutive sets (k-fold validation), and take the average of the testing results generated by the classifier. </p>
+
+<p>In this project, I validated the dataset using StratifiedShuffleSplit function provided by sklearn. The n_iter (represented by the folds variable) was set to 100, and  I used 90% data to train the model and 10% data to test the model. That means the model randomly samples 90% (10%) data to train (test) the model for each iteration, and averaged the scores for the model validation. </p>
+
+<p>Finally, let's compare the performance of final model before and after adding the new features. </p>
+
+<p><img src="https://raw.githubusercontent.com/cyuancheng/Intro-Machine-Learning/master/Figure_new_features.png" alt="new features" title="new features"></p>
+
+<p>I found that these new features do not significantly improve the performance of the final model; therefore, they are not include in the feature list.</p>
+
+<h3>
+<a id="5-discussion-and-conclusions" class="anchor" href="#5-discussion-and-conclusions" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Discussion and Conclusions</h3>
+
+<ul>
+<li><p>Accuracy: It represents the ratio of correct prediction out of the total prediction made. In other words, it means how many percentage of POIs the model can correctly predict. The average accuracy for optimal AdaBoost model is 0.8227, which means 82.27 % of predictions this model made were correct.</p></li>
+<li><p>Precision: It represents the ratio of correct positive prediction (True positives) made out of the total positive prediction made (True positives + False positives) . Here, the positive prediction means predicting the employee who is a POI (POI returns "1"). The average precision of the optimal AdaBoost model is 0.3318, which means that 33.18 % of the total positive prediction made by model were correct.</p></li>
+<li><p>Recall: It represents the ratio of correct positive prediction (True positives) made out of the actual total predictions, that were indeed positive (True positives + False negatives). The recall value in this project means what percentage of actual POIs in the test dataset were correctly identified. The optimal AdaBoost model achieves a recall of 0.3650, which means only 36.50 % of POI were correctly identified among all the actual POIs.</p></li>
+</ul>
+
+<p>In many cases, the accuracy can be pretty good (&gt;80%), but still lacking good precision or recall (&lt;30%). It is important to note that a model has a very high accuracy does not mean it is a good model. There is also a trade-off between precision and recall, which needs to be balanced in the models. However, the Enron E+F dataset contains much more POIs than non-POIs (18 vs 127). With this unbalanced dataset, the precision and recall are useful metrics for evaluating the model. For example, the original Enron data contains 18 POIs over 145 employee. The optimal AdaBoost model can successfully identify 15 individual as POIs, where only 5 of them actually to be POIs. More data will definitely help to improve the performance and validation of models. </p>
+
+<h3>
+<a id="6-references" class="anchor" href="#6-references" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. References</h3>
+
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Enron_scandal">Enron scandal, from WiKipedia</a></li>
+<li><a href="https://www.cs.cmu.edu/%7E./enron/">Enron Email Dataset</a></li>
+<li><a href="http://news.findlaw.com/legalnews/lit/enron/">Enron Financial Dataset</a></li>
+<li><a href="http://enrondata.org/content/research/">EnronData.org</a></li>
+<li><a href="http://scikit-learn.org/stable/">scikit-learn</a></li>
+<li>Python for Data Analysis, by Wes McKinney, O'Reilly Media, 2012.</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/cyuancheng/Intro-Machine-Learning">Identifying Fraud from Enron Email using Machine Learning</a> is maintained by <a href="https://github.com/cyuancheng">cyuancheng</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
