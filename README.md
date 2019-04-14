@@ -1,5 +1,5 @@
-##Project 4: Identifying Fraud from Enron Email | Intro Machine Learning
-- Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com)
+## Identifying Fraud from Enron Email | Intro Machine Learning
+- Author:  Chiyuan Cheng (cyuancheng AT gmail DOT com)
 - Last updated: August 4, 2015
 
 ### Information
@@ -13,7 +13,7 @@ After testing the performance of multiple algorithms, **AdaBoost** (with optimal
 
 I used pandas and Python to clean and explore the E+F dataset, including removing outliners and filling missing values with median values for each feature.
 
-###Algorithm 
+### Algorithm 
 1. Select the following 5 features based on SelectKBest, PCA, and DecisionTreeClassifier: ```` 'poi', 'exercised_stock_options', 'total_stock_value', 'bonus', 'salary', 'deferred_income' ````
 
 2. Cross-validation using StratifiedShuffleSplit and StratifiedKFold
@@ -28,7 +28,7 @@ I used pandas and Python to clean and explore the E+F dataset, including removin
 4. Fine tune the parameters of the two best performed classifiers (LinearSVC and Adaboost).
 
 
-###Files
+### Files
 
 - **Project Summary** ([html](http://cyuancheng.github.io/Intro-Machine-Learning/))
 - **Questions** ([html](http://htmlpreview.github.io/?https://github.com/cyuancheng/Intro-Machine-Learning/blob/master/P4_questions.html))
